@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="d-flex justify-content-center align-item-center " style="margin-top: 4.5rem!important;">
+
+            <table class="table container table-hover align-middle table-responsive-sm">
+              <thead class="table-dark">
+                <tr>
+                  <th class="text-center" scope="col">#</th>
+                  <th class="text-center" scope="col">Date</th>
+                  <th class="text-center" scope="col">Worker</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% if not data %}
+                              <th class="text-center" scope="row">1</th>
+                              <td class="text-center">Please click on the top right</td>
+                              <td class="text-center">on the add button to register your action</td>
+              {% else %}
+                  {% for data in data %}
+                        <tr>
+
+                              <th class="text-center" scope="row">{{ loop.index }}</th>
+                              <td class="text-center">{{ data['date'] }}</td>
+                              <td class="text-center"> <form action="{{ url_for('delete', id = data['id'])}}" method="POST"> {{ data['worker'] }} <button type="submit" class="btn btn-outline-danger mr-2">remove </button></form> </td>
+
+                        </tr>
+                  {% endfor %}
+              {% endif %}
+              </tbody>
+            </table>
+
+    </div>
+{% endblock %}
