@@ -7,7 +7,7 @@
                 <tr>
                   <th class="text-center" scope="col">#</th>
                   <th class="text-center" scope="col">Date</th>
-                  <th class="text-center" scope="col">Worker</th>
+                  <th class="text-center" scope="col">Packages</th>
                 </tr>
               </thead>
               <tbody>
@@ -21,7 +21,10 @@
 
                               <th class="text-center" scope="row">{{ loop.index }}</th>
                               <td class="text-center">{{ data['date'] }}</td>
-                              <td class="text-center"> <form action="{{ url_for('delete', id = data['id'])}}" method="POST"> {{ data['worker'] }} <button type="submit" class="btn btn-outline-danger mr-2">remove </button></form> </td>
+                              <td class="text-center"><div class="d-flex justify-content-center align-items-center"> <form method="POST" action="{{ url_for('packages', id = data['id'])}}"><label>
+                                  <input  onInput="this.parentNode.dataset.value = this.value" type='text' class="me-2 text-center"  name="packages" value="{{ request.form['packages']}}{{ data['worker'] }}">
+                              </label></form>
+                                  <form action="{{ url_for('delete', id = data['id'])}}" method="POST"> <button type="submit" class="btn btn-outline-danger mr-2">remove </button></form> </div></td>
 
                         </tr>
                   {% endfor %}
@@ -30,4 +33,18 @@
             </table>
 
     </div>
+<script>
+
+
+Array.from( document.querySelectorAll('[data-expand]'), (input)=>{
+    let parent = input.parentNode;
+    function updateSize(){
+ parent.dataset.value = input.value
+}
+input.addEventListener('input', updateSize);
+updateSize();
+ });
+
+
+</script>
 {% endblock %}

@@ -24,14 +24,23 @@ def hello_world():
 @app.route('/register', methods=['GET', 'POST'])
 def action():
     if request.method == 'POST':
-        name = ['Lukas Vanden Branden']
         conn = get_db_connection()
         conn.execute(
-            'INSERT INTO delivery (worker) VALUES (?)', name)
+            'INSERT INTO delivery (worker)VALUES (?)', ('0',))
         conn.commit()
         conn.close()
         return redirect(url_for('hello_world'))
 
+@app.route('/packages/<int:id>', methods=['GET', 'POST'])
+def packages(id):
+    packages = request.form['packages']
+    if request.method == 'POST':
+        conn = get_db_connection()
+        conn.execute('UPDATE delivery SET  worker = ?' 'WHERE id = ?',
+                             (packages,id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('hello_world'))
 
 @app.route('/delete/<string:id>', methods=['GET', 'POST'])
 def delete(id):
